@@ -1,0 +1,6 @@
+{
+  "appId": "com.babycare.app",
+  "appName": "宝宝护理记录",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
