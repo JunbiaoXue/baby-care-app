@@ -10,12 +10,6 @@ on:
       - 'package-lock.json'
   workflow_dispatch:
 
-env:
-  JAVA_VERSION: '17'
-  GRADLE_VERSION: '8.5'
-  ANDROID_COMPILE_SDK: '34'
-  ANDROID_BUILD_TOOLS: '34.0.0'
-
 jobs:
   build:
     name: Build APK
@@ -28,8 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: '18'
 
       - name: Install npm dependencies
         run: npm ci
@@ -37,26 +30,8 @@ jobs:
       - name: Install Android SDK
         uses: android-actions/setup-android@v2
 
-      - name: Create capacitor config if not exists
-        run: |
-          if [ ! -f "capacitor.config.ts" ]; then
-            echo '{"appId":"com.babycare.app","appName":"BabyCare","webDir":"dist","android":{"build":"release"}}' > capacitor.config.ts
-          fi
-
       - name: Add Android platform
         run: npx cap add android
-
-      - name: Update app icons
-        run: |
-          if [ ! -d "android/app/src/main/res/drawable-hdpi" ]; then
-            mkdir -p android/app/src/main/res/drawable-hdpi
-            mkdir -p android/app/src/main/res/drawable-xhdpi
-            mkdir -p android/app/src/main/res/drawable-xxhdpi
-            # Create placeholder icons (1x1 transparent PNG)
-            echo -n "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" | base64 -d > android/app/src/main/res/drawable-hdpi/ic_launcher.png
-            cp android/app/src/main/res/drawable-hdpi/ic_launcher.png android/app/src/main/res/drawable-xhdpi/
-            cp android/app/src/main/res/drawable-hdpi/ic_launcher.png android/app/src/main/res/drawable-xxhdpi/
-          fi
 
       - name: Build debug APK
         run: |
