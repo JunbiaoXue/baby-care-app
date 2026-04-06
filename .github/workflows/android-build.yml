@@ -7,7 +7,6 @@ on:
       - 'src/**'
       - 'android/**'
       - 'package.json'
-      - 'package-lock.json'
   workflow_dispatch:
 
 jobs:
@@ -25,7 +24,7 @@ jobs:
           node-version: '18'
 
       - name: Install npm dependencies
-        run: npm ci
+        run: npm install
 
       - name: Install Android SDK
         uses: android-actions/setup-android@v2
